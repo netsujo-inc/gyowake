@@ -1,0 +1,27 @@
+{
+  "observedDateJst": "2026-10-21",
+  "url": "https://netsujo.jp/services",
+  "evidenceType": "anonymous-live-dom-and-visual-observation",
+  "httpStatus": 200,
+  "viewportWidthCssPx": 1363,
+  "documentScrollWidthCssPx": 1348,
+  "targetBoxWidthCssPx": 362.65625,
+  "targetClass": "mt-8 flex flex-wrap items-center gap-x-5 gap-y-3",
+  "computedDisplay": "flex",
+  "computedFlexWrap": "wrap",
+  "computedGap": "12px 20px",
+  "links": [
+    {"label": "X (Twitter)", "href": "https://x.com/netsujo_jp", "widthCssPx": 20},
+    {"label": "note", "href": "https://note.com/netsujo", "widthCssPx": 30.640625},
+    {"label": "GitHub（Netsujo公式Organization）", "href": "https://github.com/netsujo-inc", "widthCssPx": 47.46875},
+    {"label": "connpass", "href": "https://mit.connpass.com/", "widthCssPx": 67.03125}
+  ],
+  "sourceChange": "https://github.com/suirindo/netsujo-site/pull/670",
+  "acceptedSourceHead": "a7351978c282472d897b3598a49f544e142b3789",
+  "mergeCommit": "0562c7982ca76c4377cb5f5fb63836f2311d0e1a",
+  "limitations": [
+    "Live observation is limited to this URL, viewport and footer.",
+    "Earlier multi-width and CSS-root-font stress checks are historical source-bound PR 670 evidence, not rerun here.",
+    "Page-wide semantic quality, native zoom, cross-browser compliance and business effects remain outside this observation."
+  ]
+}

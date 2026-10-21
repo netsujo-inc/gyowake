@@ -1,0 +1,11 @@
+{
+  "dateJst": "2026-10-21",
+  "shell": "bash",
+  "scope": "documented POSIX copy commands in temporary destinations; no actual agent-host installation or activation",
+  "checks": [
+    "both initial installs pass; existing destinations stop",
+    "two consecutive updates: unique backups; all source bytes match; no nested directory",
+    "existing symlink rejected without destination mutation",
+    "relative documentation links resolve"
+  ]
+}
