@@ -10,7 +10,7 @@ Kaigyo helps developers audit, minimally repair, and verify awkward Japanese wra
 
 **[Open the Kaigyo interactive demo →](https://kaigyo-demo.vercel.app/)**
 
-Adjust the content width and font size to compare fixed *BEFORE* examples with rendered *AFTER* text. The before cases are synthetic fixtures; page-specific audit accuracy is evaluated separately.
+Choose a case, change the text width or font size, and compare the **same Japanese sentence** in both panels. The Before panel deliberately inserts an awkward break; the After panel reflows the original text with only reviewed short phrases protected. This is a browser-rendered **synthetic demo**, not a real-site audit or proof of universal correctness.
 
 ![Kaigyo desktop demo with Before/After examples](docs/images/kaigyo-demo-desktop.png)
 
@@ -31,7 +31,7 @@ See **[7 Before/After cases, implementation guidance, and automatic-judgment lim
 - Mobile widths, responsive behavior and 200% text enlargement when required.
 - Preservation of the complete visible copy and adjacent line context.
 
-For example: `個別契｜約` → protect `個別契約`; `30｜分` → protect `30分`. Ordinary Japanese line wrapping remains permitted.
+For example: `詳しい条｜件は個別契約｜に従います。` → preserve `条件は` and `個別契約に` as short units; `30｜分` → keep `30分` with its predicate. Ordinary Japanese wrapping remains permitted.
 
 ## Install as an Agent Skill
 
@@ -71,7 +71,7 @@ npm run demo
 # Then open http://127.0.0.1:8765/skills/kaigyo/demo/
 ```
 
-The demo uses seven fixed examples, adjustable content width, and adjustable 100–200% font size. Its status refers only to the selected example. It is not a real-website acceptance test.
+The demo uses seven fixed examples, adjustable text width, and 100–200% *in-demo* font scaling. A narrow area may legitimately show `NEEDS_LAYOUT_CHANGE`; there is no automatic font shrink or arbitrary split. Browser zoom, user font preferences, and acceptance of an actual website still need their own independent checks.
 
 ## Optional BudouX candidate review
 
