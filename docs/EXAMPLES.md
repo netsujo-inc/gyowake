@@ -21,7 +21,7 @@ When a host project has a suitable semantic-text helper, reuse it. For a reviewe
 ```jsx
 // Example only; adapt to the host project's existing components.
 const text = "詳しい条件は個別契約に従います。";
-const protect = ["個別契約", "従います。"];
+const protect = ["条件は", "個別契約に", "従います。"];
 // Render the normal spans with wrapping and short protected spans
 // with white-space: nowrap. Escape any untrusted input as text nodes.
 ```

@@ -2,109 +2,125 @@
 
 **日本語Webサイトの改行・段落を整えるAgent Skill。**
 
-行わけ（Gyowake） helps developers audit, minimally repair, and verify awkward Japanese wrapping and paragraph rhythm while preserving approved visible copy. It is a reusable **Agent Skill** by [Netsujo](https://netsujo.jp).
+助詞や製品名が途中で分かれる、語尾だけが次の行へ落ちる、段落が長く読みづらい。行わけは、こうした表示をブラウザで確認し、承認済みの原文を保ちながら最小限の修正と再検証を進めるための、[Netsujo](https://netsujo.jp)製Skillです。
 
-> **Public preview — v0.3.0-preview.2.** The Skill provides a review workflow with tests, examples and a local demo. Final acceptance for a real website requires source access (for fixes), an actual browser, and evidence for the exact page/version tested. It does not automatically classify arbitrary websites or guarantee perfect line breaking.
+**公開プレビュー：v0.3.0-preview.2。** 日本語Webサイトを扱う開発者・制作担当者と、その作業を支援するコーディングエージェント向けです。修正には対象プロジェクトのソース編集権限が必要です。
 
-## Live demo and screenshots
+[体験デモ](https://gyowake-demo.vercel.app/demo/) · [導入・更新](docs/INSTALL.md) · [7つの実例](docs/EXAMPLES.md) · [実サイトの事例](docs/CASE_STUDY.md) · [ロードマップ](docs/ROADMAP.md) · [English](README.en.md)
 
-**[行わけの体験デモを開く →](https://gyowake-demo.vercel.app/)**
+## デモで確認する
 
-Choose a case, change the text width or font size, and compare the **same Japanese sentence** in both panels. The Before panel deliberately inserts an awkward break; the After panel reflows the original text with only reviewed short phrases protected. This is a browser-rendered **synthetic demo**, not a real-site audit or proof of universal correctness.
+デモは**同じ文章**のBefore / Afterを並べ、文章の幅と文字サイズを変えられます。Beforeは説明用に不自然な改行を挿入した固定例、Afterは短い保護語句を使ったブラウザの折り返しです。実サイトの品質は、対象の実画面で確認します。
 
-![Gyowake desktop demo with Before/After examples](docs/images/gyowake-demo-desktop.png)
+![行わけのPC向けBefore / After](docs/images/gyowake-demo-desktop.png)
 
 <details>
-<summary>View mobile demo screenshot (390px)</summary>
+<summary>スマートフォンの表示例（390px）</summary>
 
-![Gyowake mobile demo with stacked Before/After examples](docs/images/gyowake-demo-mobile.png)
+![行わけのスマートフォン向けデモ](docs/images/gyowake-demo-mobile.png)
 
 </details>
 
-See **[7 Before/After cases, implementation guidance, and automatic-judgment limits](docs/EXAMPLES.md)**.
+## 導入する
 
-## What it checks
-
-- Detached particles, sentence endings and bunsetsu; broken names and numbers with units.
-- Unnatural forced line breaks, whole-paragraph `nowrap` and horizontal overflow.
-- Missing semantic paragraph boundaries and unnecessarily fragmented paragraphs.
-- Mobile widths, responsive behavior and 200% text enlargement when required.
-- Preservation of the complete visible copy and adjacent line context.
-
-For example: `詳しい条｜件は個別契約｜に従います。` → preserve `条件は` and `個別契約に` as short units; `30｜分` → keep `30分` with its predicate. Ordinary Japanese wrapping remains permitted.
-
-## Install as an Agent Skill
-
-The complete distributable Skill is `skills/gyowake/`. Copy that directory as-is into an Agent Skills directory supported by your coding agent:
+配布物は `skills/gyowake/` です。GitとNode.js 22以上を使います。WindowsではGit BashなどのPOSIX形式のシェルを使用してください。
 
 ```sh
-git clone https://github.com/netsujo-inc/gyowake.git
-mkdir -p ~/.agents/skills ~/.claude/skills
-cp -R gyowake/skills/gyowake ~/.agents/skills/gyowake
-# For Claude Code instead (or additionally):
-cp -R gyowake/skills/gyowake ~/.claude/skills/gyowake
+git clone --depth 1 https://github.com/netsujo-inc/gyowake.git
+cd gyowake
+npm test
 ```
 
-Follow your agent's skill discovery/reload procedure. The host agent retains file access, editor authority, security policy, deployment authorization, and final judgment.
+続いて、使うホストに対応する片方を実行します。既存の導入先がある場合は、[更新手順](docs/INSTALL.md#更新する)へ進んでください。
 
-Example request (Japanese):
+`~/.agents/skills/` を読むホスト向け：
 
-> このLPを行わけで監査して。画面幅375pxの不自然な改行と段落を特定し、原文を変えずに修正案と検証証拠を示して。
+```sh
+(
+  set -eu
+  target="$HOME/.agents/skills/gyowake"
+  test ! -e "$target"
+  test ! -L "$target"
+  mkdir -p "$target"
+  cp -R skills/gyowake/. "$target/"
+  test -s "$target/SKILL.md"
+)
+```
 
-### Three modes
+Claude Code向け：
 
-| Mode | Operation | Permissions |
+```sh
+(
+  set -eu
+  target="$HOME/.claude/skills/gyowake"
+  test ! -e "$target"
+  test ! -L "$target"
+  mkdir -p "$target"
+  cp -R skills/gyowake/. "$target/"
+  test -s "$target/SKILL.md"
+)
+```
+
+ホストの手順でSkillを再読込し、`name: gyowake` が読まれたことを確認します。ファイルのコピー成功と、ホストでの読込成功を別々に確認してください。
+
+## 使う
+
+最初は、URL・幅・変更権限を含めて監査を依頼します。
+
+> このLPを行わけで監査してください。画面幅375pxで助詞・複合語・数字と単位・段落を確認し、不自然な境界と原因、最小修正案を示してください。ソースはまだ変更しないでください。
+
+修正を依頼するときは、原文維持と再検証まで指定します。
+
+> 指摘箇所を、承認済み原文を変えずに修正してください。既存の短い語句保護コンポーネントを優先し、320・375・768・1024・1440pxで再表示してください。修正前後の行、横はみ出し、検証した版と未検証範囲を記録してください。
+
+| モード | 行うこと | 必要な権限・環境 |
 | --- | --- | --- |
-| `audit` | Browser-observed findings and proposed minimal repairs | Read-only |
-| `fix` | Authorized source/layout edits plus regression checks | Existing source-write permission required |
-| `verify` | Re-render and validate an exact version | Read-only |
+| `audit` | 実表示を調べ、指摘と修正案をまとめる | 読取権限とブラウザ |
+| `fix` | 原文を保持してソース・レイアウトを修正する | 対象プロジェクトの編集権限 |
+| `verify` | 指定した版を再表示し、境界とレイアウトを確認する | 読取権限とブラウザ |
 
-The Skill never grants publishing, deploying, deleting, or production-change permission.
+公開・デプロイ・削除の権限は、利用するプロジェクトの承認手順に従います。
 
-## Run the local tests and demo
+## 判断の例と限界
 
-Requirements: Node.js 22+; Python 3 for the static demo server. Default tests use only built-in Node.js modules and make **no network calls**.
+`詳しい条｜件は個別契約｜に従います。` なら、`条件は`・`個別契約に`・`従います。` などの短い意味単位を検討し、隣接する行も読み直します。段落は話題や意味の切り替わりを基準に検討します。
+
+自動処理の範囲は、指定された保護語句を使う分割、固定例の表示、任意で導入するBudouXによる境界候補の提示です。意味の判断と実画面の最終確認はレビューが必要です。
+
+| 状態 | 扱い |
+| --- | --- |
+| 意味や候補境界の判断が必要 | `NEEDS_REVIEW` |
+| 最短の保護語句も幅に収まらない | `NEEDS_LAYOUT_CHANGE`。許可された幅・余白・列構成の変更を検討 |
+| 保護語句が収まる | その表示例の限定結果。周辺の行・段落も確認 |
+
+文字を隠す・切り詰める・自動で縮小する・単語の途中で分ける修正は避けます。ブラウザ、フォント、画面幅、ネイティブズーム、WCAG適合、サイト全体の品質は、それぞれの対象に合った検証が必要です。
+
+## テストとローカルデモ
 
 ```sh
 npm test
 npm run demo
-# Then open http://127.0.0.1:8765/skills/gyowake/demo/
+# http://127.0.0.1:8765/skills/gyowake/demo/ を開く
 ```
 
-The demo uses seven fixed examples, adjustable text width, and 100–200% *in-demo* font scaling. A narrow area may legitimately show `NEEDS_LAYOUT_CHANGE`; there is no automatic font shrink or arbitrary split. Browser zoom, user font preferences, and acceptance of an actual website still need their own independent checks.
+デモサーバーにはPython 3が必要です。標準テストはNode.js組込み機能で動作し、外部通信を行いません。デモ内の100〜200%文字拡大と、ブラウザ本体のズームを区別してください。
 
-## Optional BudouX candidate review
+## BudouXを任意で試す
 
-BudouX can suggest potential phrase boundaries **for human review only**. Gyowake does not install it automatically, call external text APIs, rewrite the DOM, or treat a predicted break as a verified repair.
+希望する場合だけ、別の作業用checkoutへ固定版を導入します。候補は常に `NEEDS_REVIEW` として扱います。
 
 ```sh
-# Optional, in an isolated local checkout:
 npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund budoux@0.9.3
 printf '%s' 'Netsujo SIGNALで相談につながるサイトを作る。' |
   npm run gyowake:suggest -- --protect 'Netsujo SIGNAL'
 ```
 
-Outputs remain `NEEDS_REVIEW`. See [BudouX provenance and limitations](skills/gyowake/references/budoux.md).
+自動インストールや外部テキストAPIへの送信は行いません。[由来・固定比較・制約](skills/gyowake/references/budoux.md)を確認してください。
 
-## Acceptance and limitations
+## 旧名称からの移行・ライセンス
 
-Real-site verification must record browser/version, viewport, content width, exact source identity, visible before/after lines, screenshot or equivalent geometry, overflow checks, and tests. Recommended viewport widths: **320, 375, 768, 1024 and 1440 CSS px**, plus the observed failure width. Normal viewport reduction is not equivalent to every native 200% text-resize test.
+2026年10月21日にKaigyoから行わけ（Gyowake）へ改名しました。旧GitHub URLは新リポジトリへ転送されます。導入済みの旧Skillやサイト内参照は、[移行手順](docs/INSTALL.md#旧kaigyoから移行する)を確認して切り替えます。JavaScriptの `KaigyoCore` は移行用の互換エイリアスを保持します。
 
-If the shortest protected phrase cannot fit, return `NEEDS_LAYOUT_CHANGE`. If semantics are uncertain, return `NEEDS_REVIEW`. Do not shrink/hide text or claim a pass from source-only inspection.
+`package.json` は `private: true` を維持しており、npmには公開していません。CLIはソースcheckoutから実行できます。
 
-Gyowake is a source-access and browser-review workflow. It has no hosted crawler, no paid API and no customer-content upload path. For project-specific details consult [the canonical Skill](skills/gyowake/SKILL.md).
-
-## Contributing and licensing
-
-- [Contributing](CONTRIBUTING.md) | [Changelog](CHANGELOG.md)
-- MIT-licensed original Gyowake files, copyright © 2026 Netsujo株式会社.
-- Optional BudouX is independent third-party software under Apache-2.0 and is **not vendored or redistributed** by this repository. See [Third-party notes](THIRD_PARTY.md).
-- Source owner: [Netsujo](https://netsujo.jp). Issues and pull requests are welcome; do not include private customer pages or secrets in reports.
-
-日本語：行わけは、助詞や製品名の不自然な分断、段落の過不足、狭い画面での横はみ出しをブラウザ実測で監査・修正・再検証するAgent Skillです。承認済み原文を維持し、実ページの最終受入にはブラウザ証拠が必要です。
-
-## 旧名称 Kaigyo からの移行
-
-2026年10月21日に名称を **行わけ（Gyowake）** に変更しました。旧GitHub URLはGitHubのリポジトリ移転リダイレクトを利用します。旧版をローカルに導入している場合は、新しい skills/gyowake/ を別ディレクトリに導入し、利用中プロジェクトの参照を確認してから旧設定を切り替えてください。既存のサイト実装や利用者のSkillは自動変更しません。
-
-package.json は private: true を維持しており、npmには公開していません。npm run gyowake:suggest などのCLIはソースチェックアウトから利用できます。
+MITライセンス、著作権者はNetsujo株式会社です。BudouXはApache-2.0の外部依存で、ソース・モデル・学習データを配布物に同梱していません。[第三者ソフトウェア](THIRD_PARTY.md) · [貢献方法](CONTRIBUTING.md) · [変更履歴](CHANGELOG.md) · [Skill正本](skills/gyowake/SKILL.md) · [名称の一次調査](docs/NAME_REVIEW.md)
