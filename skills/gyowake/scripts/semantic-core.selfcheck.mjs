@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import "./semantic-core.js";
 
-const { splitProtected } = globalThis.KaigyoCore;
+const { splitProtected } = globalThis.GyowakeCore;
 assert.equal(typeof splitProtected, "function");
 
 const cases = [
@@ -26,4 +26,4 @@ assert.equal(splitProtected("個別契約", ["個別", "個別契約"])[0].text,
 assert.throws(() => splitProtected("abc", ["z"])); checks++;
 assert.throws(() => splitProtected("abc", [""])); checks++;
 assert.throws(() => splitProtected(123, [])); checks++;
-console.log("KAIGYO_SEMANTIC_CORE_PASS checks=" + checks);
+console.log("GYOWAKE_SEMANTIC_CORE_PASS checks=" + checks);

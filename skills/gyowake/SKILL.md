@@ -1,22 +1,22 @@
 ---
-name: kaigyo
-description: Audit, repair, and verify awkward Japanese web line and paragraph breaks without rewriting approved copy. Use for 改行, 段落, 変な改行, 助詞の孤立, 文節分断, 意味転換点の段落不足, 固有名詞・製品名・数字と単位の分断, 語尾だけの行, Japanese typography, responsive text wrapping, or explicit Kaigyo requests.
+name: gyowake
+description: Audit, repair, and verify awkward Japanese web line and paragraph breaks without rewriting approved copy. Use for 改行, 段落, 変な改行, 助詞の孤立, 文節分断, 意味転換点の段落不足, 固有名詞・製品名・数字と単位の分断, 語尾だけの行, Japanese typography, responsive text wrapping, or explicit Gyowake requests.
 compatibility: Requires source access for fix mode and a real browser for rendered verification. A URL without writable source is audit-only.
 metadata:
   author: Netsujo
-  version: "0.3.0-preview.1"
+  version: "0.3.0-preview.2"
   release-status: "public-preview"
 ---
 
-# Kaigyo
+# 行わけ（Gyowake）
 
-Kaigyo is a specialist Skill, not a new agent, daemon, controller, or deployment lane.
+Gyowake is a specialist Skill, not a new agent, daemon, controller, or deployment lane.
 The calling Designer / Implementer / QA agent keeps scope, permissions, writer ownership, PR lifecycle, and final reporting.
 
 ## Purpose
 
 Improve Japanese web line-break and paragraph readability while preserving approved visible copy exactly.
-Kaigyo covers both inline wrapping and paragraph structure when the visible wording stays unchanged. A new sentence that resets the topic, narrows scope, states a consequence, or begins with a discourse marker such as 「今回、」「実際の」「一方で、」「そのため、」 may need its own paragraph when keeping it in the previous paragraph weakens scanability.
+Gyowake covers both inline wrapping and paragraph structure when the visible wording stays unchanged. A new sentence that resets the topic, narrows scope, states a consequence, or begins with a discourse marker such as 「今回、」「実際の」「一方で、」「そのため、」 may need its own paragraph when keeping it in the previous paragraph weakens scanability.
 Do not treat every line or paragraph break as a defect. Observe the real rendered structure first, classify it, repair the smallest cause, then re-render.
 
 Read:
@@ -36,12 +36,12 @@ Do not apply raw BudouX HTML output, global word-break: keep-all, zero-width spa
 
 ### Local review command
 
-For arbitrary Japanese text, the optional CLI is `npm run kaigyo:suggest -- --protect 'Netsujo SIGNAL'` with original copy piped through stdin. It uses an explicitly installed local `budoux@0.9.3`, refuses to auto-install, and returns `NEEDS_REVIEW` JSON containing proposed and blocked breaks. Preserve the user's original wording and never treat this as final visual QA. If BudouX is unavailable, continue existing manual/browser Kaigyo; do not claim it ran. See `references/budoux.md`.
+For arbitrary Japanese text, the optional CLI is `npm run gyowake:suggest -- --protect 'Netsujo SIGNAL'` with original copy piped through stdin. It uses an explicitly installed local `budoux@0.9.3`, refuses to auto-install, and returns `NEEDS_REVIEW` JSON containing proposed and blocked breaks. Preserve the user's original wording and never treat this as final visual QA. If BudouX is unavailable, continue existing manual/browser Gyowake; do not claim it ran. See `references/budoux.md`.
 
 ## Modes
 
 ### audit
-Default for "Kaigyoで見て", "改行を監査して", or a URL-only request.
+Default for "Gyowakeで見て", "改行を監査して", or a URL-only request.
 Read-only. Return findings, observed line boundaries, likely cause, proposed repair, screenshots/evidence, and uncertainty.
 
 ### fix
@@ -102,7 +102,7 @@ Prefer this order:
 6. use only an authorized local width/padding/column layout change that preserves the complete protected unit
 7. if no authorized local layout change is available or sufficient, report NEEDS_LAYOUT_CHANGE
 
-Never solve Kaigyo by:
+Never solve Gyowake by:
 - shrinking type automatically
 - hiding, clipping, ellipsizing, or truncating copy
 - inserting arbitrary spaces
@@ -161,5 +161,5 @@ The demo proves a chosen repair's reflow behavior; it is not evidence that arbit
 
 ## Boundaries
 
-Kaigyo is Japanese reading-flow scope: inline semantic wrapping plus paragraph-boundary structure that can be repaired without changing approved wording. Copy rewriting, broken images, stale sitemap metadata, brand-casing lint, SEO, or general accessibility work remain separate unless the user explicitly includes them.
+Gyowake is Japanese reading-flow scope: inline semantic wrapping plus paragraph-boundary structure that can be repaired without changing approved wording. Copy rewriting, broken images, stale sitemap metadata, brand-casing lint, SEO, or general accessibility work remain separate unless the user explicitly includes them.
 Invocation never authorizes merge, deploy, Production mutation, external upload, or publication.

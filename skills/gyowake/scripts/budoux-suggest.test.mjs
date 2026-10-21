@@ -19,14 +19,14 @@ test('review-only CLI advertises safe operating bounds without requiring BudouX'
 test('empty original text is rejected before dependency loading', () => {
   const result = run([], '');
   assert.equal(result.status, 2);
-  assert.match(result.stderr, /KAIGYO_INPUT_REQUIRED/);
+  assert.match(result.stderr, /GYOWAKE_INPUT_REQUIRED/);
 });
 
 test('unknown or incomplete arguments are rejected', () => {
   for (const args of [['--unknown'], ['--protect'], ['--protect', '--unknown']]) {
     const result = run(args, '日本語');
     assert.equal(result.status, 2);
-    assert.match(result.stderr, /KAIGYO_UNKNOWN_OR_INCOMPLETE_ARGUMENT/);
+    assert.match(result.stderr, /GYOWAKE_UNKNOWN_OR_INCOMPLETE_ARGUMENT/);
   }
 });
 
@@ -36,7 +36,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 function runWithUntrustedModule(version) {
-  const root = mkdtempSync(join(tmpdir(), 'kaigyo-budoux-version-gate-'));
+  const root = mkdtempSync(join(tmpdir(), 'gyowake-budoux-version-gate-'));
   const packageRoot = join(root, 'node_modules', 'budoux');
   const moduleDir = join(packageRoot, 'module');
   const marker = join(root, 'executed-marker.txt');
@@ -80,7 +80,7 @@ test('approved BudouX package can execute after the version gate', () => {
   assert.equal(report.engineVersionExpected, '0.9.3');
 });
 function runCompanionWithFakeBudoux(version) {
-  const root = mkdtempSync(join(tmpdir(), 'kaigyo-budoux-comparison-gate-'));
+  const root = mkdtempSync(join(tmpdir(), 'gyowake-budoux-comparison-gate-'));
   const moduleDir = join(root, 'node_modules', 'budoux', 'module');
   const scriptsDir = join(root, 'scripts');
   const assetsDir = join(root, 'assets');

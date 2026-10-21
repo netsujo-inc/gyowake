@@ -1,6 +1,6 @@
 # Repair rules
 
-Kaigyo changes reading-flow structure and layout behavior, not approved meaning. It may split or join paragraph containers when the visible wording and sentence order remain identical.
+Gyowake changes reading-flow structure and layout behavior, not approved meaning. It may split or join paragraph containers when the visible wording and sentence order remain identical.
 
 ## Preferred primitives
 

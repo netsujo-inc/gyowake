@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import '../skills/kaigyo/scripts/semantic-core.js';
+import '../skills/gyowake/scripts/semantic-core.js';
 
-const examples=JSON.parse(readFileSync(new URL('../skills/kaigyo/assets/demo-cases.json',import.meta.url),'utf8'));
-const html=readFileSync(new URL('../skills/kaigyo/demo/index.html',import.meta.url),'utf8');
+const examples=JSON.parse(readFileSync(new URL('../skills/gyowake/assets/demo-cases.json',import.meta.url),'utf8'));
+const html=readFileSync(new URL('../skills/gyowake/demo/index.html',import.meta.url),'utf8');
 
 test('7 demo cases preserve the exact original text in both comparisons', () => {
   assert.equal(examples.length,7);
@@ -14,7 +14,7 @@ test('7 demo cases preserve the exact original text in both comparisons', () => 
     assert.equal(typeof c.method,'string');
     assert.ok(c.problem.length>=10 && c.method.length>=10,c.id);
     assert.equal(c.before.replaceAll('｜',''),c.text,'Before/After must show same visible copy: '+c.id);
-    const segments=globalThis.KaigyoCore.splitProtected(c.text,c.protect);
+    const segments=globalThis.GyowakeCore.splitProtected(c.text,c.protect);
     assert.equal(segments.map(s=>s.text).join(''),c.text,'protected segmentation must preserve copy: '+c.id);
     assert.equal(segments.filter(s=>s.protected).map(s=>s.text).length,c.protect.length,c.id);
   }

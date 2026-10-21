@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="同じ日本語の文章で、不自然な改行と意味を保つ改行を比較。テキスト幅・文字サイズを動かせるKaigyoの体験デモ。">
-  <title>Kaigyo | 日本語の改行 Before / After デモ</title>
+  <meta name="description" content="同じ日本語の文章で、不自然な改行と意味を保つ改行を比較。テキスト幅・文字サイズを動かせる行わけの体験デモ。">
+  <title>行わけ（Gyowake） | 日本語の改行 Before / After デモ</title>
   <style>
     :root { font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", system-ui, sans-serif; color:#142033; background:#FAF9F6; }
     * { box-sizing:border-box; }
@@ -76,7 +76,7 @@
 </head>
 <body>
 <main class="container">
-  <header class="brand"><span>Netsujo / Kaigyo</span><a href="https://github.com/netsujo-inc/kaigyo" rel="noopener noreferrer">GitHubでソースを見る ↗</a></header>
+  <header class="brand"><span>Netsujo / 行わけ</span><a href="https://github.com/netsujo-inc/gyowake" rel="noopener noreferrer">GitHubでソースを見る ↗</a></header>
   <section class="hero" aria-labelledby="title">
     <h1 id="title"><span class="title-unit">日本語の改行を、</span><span class="title-unit">読みやすく。</span></h1>
     <p class="intro">例えば「詳しい条｜件」や「個別契約｜に」。意味の途中で行が切れると、文章が読みにくくなります。<strong>同じ文章</strong>のBefore / Afterを比較し、画面幅や文字サイズを変えて試してください。</p>
@@ -125,7 +125,7 @@
       <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
     </section>
     <p class="limits">Beforeの不自然な改行は説明用に再現した例です。Afterは実際のブラウザで折り返しています。保護語句が収まらない場合はレイアウトの調整が必要です。一般のWebサイトを自動診断した結果や、すべての改行の正しさを保証する表示ではありません。</p>
-    <p class="bottom-link"><a href="https://github.com/netsujo-inc/kaigyo/blob/main/docs/EXAMPLES.md">7つの例・実装手順・検証条件を読む ↗</a></p>
+    <p class="bottom-link"><a href="https://github.com/netsujo-inc/gyowake/blob/main/docs/EXAMPLES.md">7つの例・実装手順・検証条件を読む ↗</a></p>
   </section>
 </main>
 <script src="../scripts/semantic-core.js"></script>
@@ -145,7 +145,7 @@ function escapeText(s) {
   return s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
 function renderProtected(c) {
-  return KaigyoCore.splitProtected(c.text, c.protect).map(p =>
+  return GyowakeCore.splitProtected(c.text, c.protect).map(p =>
     p.protected ? '<span class="unit">' + escapeText(p.text) + '</span>' : escapeText(p.text)
   ).join("");
 }
