@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaigyo — semantic Japanese wrapping demo</title>
+<style>
+:root{font-family:Inter,"Noto Sans JP",system-ui,sans-serif;color:#1A1A1A;background:#FBFAF7}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:1100px;margin:auto;padding:48px 24px 80px}
+.kicker{color:#FF5A1F;font-weight:800;letter-spacing:.06em}.title{font-size:clamp(34px,5vw,64px);line-height:1.05;margin:8px 0 14px;color:#0F172A}
+.lead{max-width:760px;color:#475569;font-size:18px;line-height:1.8}.controls{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}
+button{border:1px solid #D8DDE3;background:white;border-radius:999px;padding:10px 14px;font:inherit;cursor:pointer}button.active{background:#FF5A1F;color:white;border-color:#FF5A1F}
+.range{display:grid;grid-template-columns:120px 1fr 70px;gap:12px;align-items:center;margin:18px 0;max-width:720px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.card{min-width:0;background:white;border:1px solid #D8DDE3;border-radius:16px;padding:22px;min-height:260px}.bad{border-top:5px solid #B91C1C}.good{border-top:5px solid #FF5A1F}
+.tag{font-size:13px;font-weight:800;color:#64748B}.sample{margin-top:30px;font-size:28px;line-height:1.65}.sample.needs-layout-scroll{overflow-x:auto;padding-bottom:8px}.unit{white-space:nowrap;text-decoration:underline;text-decoration-color:#FF5A1F;text-decoration-thickness:3px;text-underline-offset:5px}.before{color:#475569}.finding{margin-top:26px;padding:18px;background:#FFF1E9;border-radius:12px;line-height:1.7}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px}.status{margin-top:12px;font-weight:800;color:#166534}.status.warn{color:#B45309}.note{color:#64748B;font-size:14px;line-height:1.7;margin-top:24px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.wrap{padding:28px 16px}.sample{font-size:24px}}
+@media(max-width:420px){.range{grid-template-columns:minmax(0,1fr) 64px;gap:8px}.range label{grid-column:1/-1}.range input{min-width:0;width:100%}.range output{text-align:right}}
+</style></head>
+<body><main class="wrap"><div class="kicker">Netsujo / Kaigyo</div><h1 class="title">意味を壊す改行だけ、直す。</h1>
+<p class="lead">文章を書き換えたり、文字を小さくしたりせず、分けてはいけない短い意味単位だけを守る。幅を動かして、修正の効き方を確認できます。</p>
+<div id="buttons" class="controls"></div>
+<div class="range"><label for="width">テキスト幅</label><input id="width" type="range" min="180" max="560" value="360"><output id="widthOut" for="width"></output></div>
+<div class="range"><label for="scale">文字サイズ</label><input id="scale" type="range" min="100" max="200" value="100"><output id="scaleOut" for="scale"></output></div>
+<section class="grid"><article class="card bad"><div class="tag">BEFORE / observed defect example</div><div id="before" class="sample before"></div></article>
+<article class="card good"><div class="tag">AFTER / Kaigyo repair</div><div id="after" class="sample"></div></article></section>
+<div class="finding"><strong id="label"></strong><br><span id="method"></span><div class="mono" id="protect"></div><div id="status" class="status"></div></div>
+<p class="note">このページは修正方法の説明fixture。任意URLを自動診断した証拠ではありません。自然な改行は直さず、保護語句が幅に収まらない場合はレイアウト変更が必要です。</p></main>
+<script src="../scripts/semantic-core.js"></script><script>
+let cases=[];
+let current=0;
+const buttons=document.getElementById("buttons"),before=document.getElementById("before"),after=document.getElementById("after"),width=document.getElementById("width"),scale=document.getElementById("scale");
+const afterCard=after.closest(".card");
+let resizeObserver=null,lastObservedCardWidth=null;
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function renderProtected(c){return KaigyoCore.splitProtected(c.text,c.protect).map(p=>p.protected?'<span class="unit">'+esc(p.text)+'</span>':esc(p.text)).join("");}
+function render(){
+ const c=cases[current]; [...buttons.children].forEach((b,i)=>b.classList.toggle("active",i===current));
+ before.textContent=c.before; after.innerHTML=renderProtected(c);
+ const w=width.value+"px",fs=(28*Number(scale.value)/100)+"px";
+ before.style.maxWidth=w;after.style.maxWidth=w;before.style.fontSize=fs;after.style.fontSize=fs;
+ document.getElementById("widthOut").textContent=w;document.getElementById("scaleOut").textContent=scale.value+"%";
+ document.getElementById("label").textContent=c.label;document.getElementById("method").textContent=c.method;
+ document.getElementById("protect").textContent=c.protect.length?"protect: "+c.protect.join(" / "):"protect: なし";
+ const status=document.getElementById("status"), box=after.getBoundingClientRect(), tooWide=[...after.querySelectorAll(".unit")].filter(u=>u.getBoundingClientRect().width>box.width+1);
+ status.classList.toggle("warn",tooWide.length>0);
+ after.classList.toggle("needs-layout-scroll",tooWide.length>0);
+ if(tooWide.length){after.tabIndex=0;after.setAttribute("aria-label","要レイアウト調整: 保護語句の全体を横スクロールで確認");}else{after.removeAttribute("tabindex");after.removeAttribute("aria-label");}
+ status.textContent=tooWide.length?"要レイアウト調整: "+tooWide.map(u=>"「"+u.textContent+"」").join(" / ")+" が領域幅を超えています。":(c.protect.length?"PASS: 保護語句は現在の領域内に収まっています。":"変更不要: この例では自然な改行を維持します。");
+}
+function mountCases(){
+ buttons.replaceChildren();
+ cases.forEach((c,i)=>{const b=document.createElement("button");b.textContent=(i+1).toString().padStart(2,"0")+" "+c.label;b.onclick=()=>{current=i;render()};buttons.appendChild(b)});
+ width.oninput=render; scale.oninput=render; render();
+ if(afterCard&&typeof ResizeObserver==="function"){
+  lastObservedCardWidth=afterCard.getBoundingClientRect().width;
+  resizeObserver=new ResizeObserver(entries=>{
+   const next=entries[0]?.contentRect?.width;
+   if(!Number.isFinite(next))return;
+   if(lastObservedCardWidth===null){lastObservedCardWidth=next;return;}
+   if(Math.abs(next-lastObservedCardWidth)>0.5){lastObservedCardWidth=next;render();}
+  });
+  resizeObserver.observe(afterCard);
+ }else{window.addEventListener("resize",render,{passive:true});}
+}
+fetch("../assets/demo-cases.json",{cache:"no-store"})
+ .then(r=>{if(!r.ok)throw new Error("fixture HTTP "+r.status);return r.json()})
+ .then(data=>{if(!Array.isArray(data)||data.length===0)throw new Error("fixture must be a non-empty array");cases=data;mountCases()})
+ .catch(error=>{const status=document.getElementById("status");status.classList.add("warn");status.textContent="デモfixtureを読み込めません: "+error.message});
+</script></body></html>

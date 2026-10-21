@@ -1,0 +1,255 @@
+[
+  {
+    "id": "original-particle",
+    "text": "用途に合わせて、どの関わり方でも、選べます。",
+    "protect": [
+      "どの関わり方でも、"
+    ],
+    "budouxChunks": [
+      "用途に",
+      "合わせて、",
+      "どの",
+      "関わり方でも、",
+      "選べます。"
+    ],
+    "expectedConflict": true
+  },
+  {
+    "id": "original-compound",
+    "text": "詳しい条件は個別契約に従います。",
+    "protect": [
+      "個別契約",
+      "従います。"
+    ],
+    "budouxChunks": [
+      "詳しい",
+      "条件は",
+      "個別契約に",
+      "従います。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "original-unit",
+    "text": "初回のご相談は30分です。",
+    "protect": [
+      "30分"
+    ],
+    "budouxChunks": [
+      "初回の",
+      "ご相談は",
+      "30分です。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "original-brand",
+    "text": "改善の進行はNetsujo SIGNALが担当します。",
+    "protect": [
+      "Netsujo SIGNAL",
+      "担当します。"
+    ],
+    "budouxChunks": [
+      "改善の",
+      "進行は",
+      "Netsujo SIGNALが",
+      "担当します。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "original-tail",
+    "text": "大切な意思決定を、最後まで支援します。",
+    "protect": [
+      "支援します。"
+    ],
+    "budouxChunks": [
+      "大切な",
+      "意思決定を、",
+      "最後まで",
+      "支援します。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "original-nowrap",
+    "text": "Webサイトを、営業基盤へ。見つかる。理解される。信頼される。相談につながる。",
+    "protect": [
+      "Webサイト",
+      "営業基盤",
+      "見つかる。",
+      "理解される。",
+      "信頼される。",
+      "相談につながる。"
+    ],
+    "budouxChunks": [
+      "Webサイトを、",
+      "営業基盤へ。",
+      "見つかる。",
+      "理解される。",
+      "信頼される。",
+      "相談に",
+      "つながる。"
+    ],
+    "expectedConflict": true
+  },
+  {
+    "id": "original-normal",
+    "text": "京都で働く。",
+    "protect": [],
+    "budouxChunks": [
+      "京都で",
+      "働く。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-price",
+    "text": "プランは月額7万円です。",
+    "protect": [
+      "7万円"
+    ],
+    "budouxChunks": [
+      "プランは",
+      "月額7万円です。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-date",
+    "text": "申込期限は2026年11月30日です。",
+    "protect": [
+      "2026年11月30日"
+    ],
+    "budouxChunks": [
+      "申込期限は",
+      "2026年11月30日です。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-clock",
+    "text": "受付は23:59までです。",
+    "protect": [
+      "23:59"
+    ],
+    "budouxChunks": [
+      "受付は",
+      "23:59までです。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-percentage",
+    "text": "完了率99.9%です。",
+    "protect": [
+      "99.9%"
+    ],
+    "budouxChunks": [
+      "完了率99.9%です。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-name-eng",
+    "text": "Claude Codeで開発します。",
+    "protect": [
+      "Claude Code"
+    ],
+    "budouxChunks": [
+      "Claude Codeで",
+      "開発します。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-company",
+    "text": "Netsujo SIGNALの説明資料です。",
+    "protect": [
+      "Netsujo SIGNAL"
+    ],
+    "budouxChunks": [
+      "Netsujo SIGNALの",
+      "説明資料です。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-eng-jpn",
+    "text": "Web3・AIを支援します。",
+    "protect": [
+      "Web3・AI"
+    ],
+    "budouxChunks": [
+      "Web3・AIを",
+      "支援します。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-phrase",
+    "text": "相談につながる仕組みを作る。",
+    "protect": [
+      "相談につながる"
+    ],
+    "budouxChunks": [
+      "相談に",
+      "つながる",
+      "仕組みを",
+      "作る。"
+    ],
+    "expectedConflict": true
+  },
+  {
+    "id": "extra-particle2",
+    "text": "どの関わり方でも選べます。",
+    "protect": [
+      "どの関わり方でも"
+    ],
+    "budouxChunks": [
+      "どの",
+      "関わり方でも",
+      "選べます。"
+    ],
+    "expectedConflict": true
+  },
+  {
+    "id": "extra-predicate",
+    "text": "最後まで支援します。",
+    "protect": [
+      "支援します。"
+    ],
+    "budouxChunks": [
+      "最後まで",
+      "支援します。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-numbers",
+    "text": "30分の相談ができます。",
+    "protect": [
+      "30分"
+    ],
+    "budouxChunks": [
+      "30分の",
+      "相談が",
+      "できます。"
+    ],
+    "expectedConflict": false
+  },
+  {
+    "id": "extra-compound-extra",
+    "text": "詳しい条件は個別契約に従います。",
+    "protect": [
+      "個別契約"
+    ],
+    "budouxChunks": [
+      "詳しい",
+      "条件は",
+      "個別契約に",
+      "従います。"
+    ],
+    "expectedConflict": false
+  }
+]

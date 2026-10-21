@@ -1,0 +1,16 @@
+{
+  "name": "kaigyo-skill",
+  "version": "0.3.0-preview.1",
+  "private": true,
+  "description": "Japanese semantic line-break and paragraph QA Agent Skill by Netsujo",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test skills/kaigyo/scripts/budoux-review.test.mjs skills/kaigyo/scripts/budoux-suggest.test.mjs && node skills/kaigyo/scripts/semantic-core.selfcheck.mjs && node scripts/package-check.mjs",
+    "demo": "python3 -m http.server 8765 --bind 127.0.0.1",
+    "kaigyo:suggest": "node skills/kaigyo/scripts/budoux-suggest.mjs",
+    "kaigyo:compare": "node skills/kaigyo/scripts/budoux-comparison.mjs"
+  }
+}
