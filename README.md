@@ -6,6 +6,23 @@ Kaigyo helps developers audit, minimally repair, and verify awkward Japanese wra
 
 > **Public preview — v0.3.0-preview.1.** The Skill provides a review workflow with tests, examples and a local demo. Final acceptance for a real website requires source access (for fixes), an actual browser, and evidence for the exact page/version tested. It does not automatically classify arbitrary websites or guarantee perfect line breaking.
 
+## Live demo and screenshots
+
+**[Open the Kaigyo interactive demo →](https://kaigyo-demo.vercel.app/)**
+
+Adjust the content width and font size to compare fixed *BEFORE* examples with rendered *AFTER* text. The before cases are synthetic fixtures; page-specific audit accuracy is evaluated separately.
+
+![Kaigyo desktop demo with Before/After examples](docs/images/kaigyo-demo-desktop.png)
+
+<details>
+<summary>View mobile demo screenshot (390px)</summary>
+
+![Kaigyo mobile demo with stacked Before/After examples](docs/images/kaigyo-demo-mobile.png)
+
+</details>
+
+See **[7 Before/After cases, implementation guidance, and automatic-judgment limits](docs/EXAMPLES.md)**.
+
 ## What it checks
 
 - Detached particles, sentence endings and bunsetsu; broken names and numbers with units.
