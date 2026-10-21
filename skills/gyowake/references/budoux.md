@@ -1,6 +1,6 @@
 # BudouX optional review and provenance
 
-Kaigyo uses BudouX only when a user explicitly installs `budoux@0.9.3` in a separate local checkout. Its proposed phrase boundaries are filtered through reviewed protected phrases and always marked `NEEDS_REVIEW`. The tool never changes website markup.
+Gyowake uses BudouX only when a user explicitly installs `budoux@0.9.3` in a separate local checkout. Its proposed phrase boundaries are filtered through reviewed protected phrases and always marked `NEEDS_REVIEW`. The tool never changes website markup.
 
 A controlled benchmark on 2026-10-18 contained 19 Japanese strings: 15 had no conflict, and 4 proposed a boundary inside a protected phrase (14 of 18 protected examples matched). This measures agreement with those selected examples, not general NLP accuracy or arbitrary website usability.
 
@@ -10,9 +10,9 @@ For optional local tests:
 
 ```sh
 npm install --no-save --package-lock=false --ignore-scripts --no-audit --no-fund budoux@0.9.3
-npm run kaigyo:compare
+npm run gyowake:compare
 ```
 
 BudouX is Apache-2.0 (https://github.com/google/budoux). Its source/model/training corpus are not bundled. The Japanese model uses the KNBC corpus according to the upstream project; the training-data license was not independently audited. Avoid copying training data or distributing modified models without targeted legal review.
 
-Never process untrusted HTML through BudouX HTML helpers without independent sanitization. Kaigyo passes plain strings and produces candidate boundaries only. Real-browser evidence and human/editorial judgment remain required.
+Never process untrusted HTML through BudouX HTML helpers without independent sanitization. Gyowake passes plain strings and produces candidate boundaries only. Real-browser evidence and human/editorial judgment remain required.

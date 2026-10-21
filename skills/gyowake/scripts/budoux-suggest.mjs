@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-/** Local, review-only Kaigyo boundary suggestions from optional BudouX. */
+/** Local, review-only Gyowake boundary suggestions from optional BudouX. */
 import { readFileSync } from 'node:fs';
 import { reviewBudouxBreaks } from './budoux-review.mjs';
 
 const usage = [
-  'Kaigyo × BudouX: review-only phrase suggestions (no HTML/DOM mutation).',
-  'Usage: printf %s TEXT | node skills/kaigyo/scripts/budoux-suggest.mjs [--protect PHRASE]...',
+  'Gyowake × BudouX: review-only phrase suggestions (no HTML/DOM mutation).',
+  'Usage: printf %s TEXT | node skills/gyowake/scripts/budoux-suggest.mjs [--protect PHRASE]...',
   'Requires locally installed budoux@0.9.3 (optional; no auto-install).',
   'Output is JSON with status NEEDS_REVIEW; render/browser verification is still required.',
 ].join('\n');
@@ -16,7 +16,7 @@ function parseArgs(args) {
     const arg = args[i];
     if (arg === '--help' || arg === '-h') return { help: true, protect };
     if (arg !== '--protect' || i + 1 >= args.length || args[i + 1].startsWith('--')) {
-      throw new Error('KAIGYO_UNKNOWN_OR_INCOMPLETE_ARGUMENT: ' + arg);
+      throw new Error('GYOWAKE_UNKNOWN_OR_INCOMPLETE_ARGUMENT: ' + arg);
     }
     protect.push(args[++i]);
   }
@@ -29,7 +29,7 @@ try {
     process.stdout.write(usage + '\n');
   } else {
     const text = readFileSync(0, 'utf8');
-    if (!text) throw new Error('KAIGYO_INPUT_REQUIRED: supply the original text through stdin');
+    if (!text) throw new Error('GYOWAKE_INPUT_REQUIRED: supply the original text through stdin');
     // Resolve package metadata without executing the module. Reject version drift
     // before the first import; even a rejected ESM module may have top-level effects.
     let budouxEntry;

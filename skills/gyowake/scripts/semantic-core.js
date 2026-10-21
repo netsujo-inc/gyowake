@@ -1,4 +1,4 @@
-/* Kaigyo text-preserving splitter. No network and no automatic semantic classifier. */
+/* Gyowake text-preserving splitter. No network and no automatic semantic classifier. */
 (function(root){
   "use strict";
   function splitProtected(text, phrases){
@@ -20,5 +20,6 @@
   }
   const api={splitProtected};
   if(typeof module!=="undefined"&&module.exports) module.exports=api;
-  root.KaigyoCore=api;
+  root.GyowakeCore=api;
+  root.KaigyoCore=api; // Legacy integration alias; new consumers use GyowakeCore.
 })(typeof globalThis!=="undefined"?globalThis:this);

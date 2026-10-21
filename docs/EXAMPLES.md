@@ -1,6 +1,6 @@
-# Kaigyo — Before / After examples
+# Gyowake — Before / After examples
 
-Open the [interactive public demo](https://kaigyo-demo.vercel.app/) to inspect the fixed examples and adjust available width and text scaling.
+Open the [interactive public demo](https://gyowake-demo.vercel.app/) to inspect the fixed examples and adjust available width and text scaling.
 
 **Evidence type:** These are hand-authored synthetic demonstrations. In the interactive demo, Before and After use the **same exact sentence**: `｜` represents an intentionally forced bad break in the Before fixture; After uses browser wrapping with short protected phrases. Final real-site acceptance requires the target viewport, exact source SHA and real browser evidence.
 

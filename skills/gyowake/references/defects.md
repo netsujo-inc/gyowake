@@ -1,4 +1,4 @@
-# Kaigyo defect classes
+# Gyowake defect classes
 
 ## Confirmed/blocking classes
 
